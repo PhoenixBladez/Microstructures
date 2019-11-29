@@ -1,5 +1,5 @@
 displayName = Worldbits: Yuyu's Microstructures
 author = Yuyutsu
-version = 0.1.1
+version = 0.1.1.1
 languageVersion = 6
 homepage = https://forums.terraria.org/index.php?threads/worldbits-yuyus-worldgen.84282/
