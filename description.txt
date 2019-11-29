@@ -1,0 +1,22 @@
+Worldbits is a mod that adds custom microstructures and world generation to the game! Some are tiny, natural features, and others are larger ruins with new items! There are currently 13 microstructures of varying sizes listed below:
+
+- Asteroids
+- Arcane Sky Island
+
+- Abandoned House
+- Ornate Pond Crossing
+- Ruined Tower/Library
+- Fallen Living Tree Branch
+- Graveyard
+
+- Frozen Fishing Hovel
+- Snowed-in Ice Cabin
+- Frozen Refuge
+
+- Corrupt Nest
+- Giant Bone Spikes
+
+- Glowing Gravesite
+- Gem Digsite
+
+Please visit the forum page for any questions, suggestions, or bug reports. A medium/large world is highly suggested for optimized gameplay. Requires a brand new world to work when installed. 
