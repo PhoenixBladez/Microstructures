@@ -25,7 +25,6 @@ namespace Microstructures.Projectiles
 			projectile.timeLeft = 1800;
 			projectile.ranged = true;
 			projectile.friendly = true;
-            projectile.scale = Main.rand.NextFloat(.9f, 1.3f);
 			projectile.penetrate = 2;
 		}
 		public override bool PreAI()
