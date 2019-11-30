@@ -1,4 +1,4 @@
-Worldbits is a mod that adds custom microstructures and world generation to the game! Some are tiny, natural features, and others are larger ruins with new items! There are currently 13 microstructures of varying sizes listed below:
+Worldbits is a mod that adds custom microstructures and world generation to the game! Some are tiny, natural features, and others are larger ruins with new items! There are currently 14 microstructures of varying sizes listed below:
 
 - Asteroids
 - Arcane Sky Island
@@ -8,6 +8,7 @@ Worldbits is a mod that adds custom microstructures and world generation to the 
 - Ruined Tower/Library
 - Fallen Living Tree Branch
 - Graveyard
+- Campsite
 
 - Frozen Fishing Hovel
 - Snowed-in Ice Cabin

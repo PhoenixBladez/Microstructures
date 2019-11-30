@@ -2508,8 +2508,14 @@ namespace Microstructures
 			};
 			
 			bool placed = false;
+			int counter = 0;
 			while (!placed)
 			{
+				counter++;
+				if (counter >= 300)
+				{
+					placed = true;
+				}
 				// Select a place in the first 6th of the world
 				int towerX = WorldGen.genRand.Next(300, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
 				// 50% of choosing the last 6th of the world
@@ -2642,8 +2648,14 @@ namespace Microstructures
 				{0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
 			};
 			bool placed = false;
+			int counter = 0;
 			while (!placed)
 			{
+				counter++;
+				if (counter >= 300)
+				{
+					placed = true;
+				}
 				// Select a place in the first 6th of the world
 				int towerX = WorldGen.genRand.Next(300, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
 				// 50% of choosing the last 6th of the world
@@ -2683,6 +2695,119 @@ namespace Microstructures
 						PlaceCorruptHole(towerX, towerY + 2, HoleShape1);
 					}
 				}
+				placed = true;
+			}
+		}
+		private void PlaceCampsite(int i, int j, int[,] BlocksArray) 
+		{
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+			 	{
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								tile.ClearTile();
+								break;
+							case 1:
+								tile.ClearTile();
+								tile.type = 0;
+								tile.active(true);
+								break;
+							case 2:
+								tile.ClearTile();
+								break;
+							case 3:
+								tile.ClearTile();
+								break;
+							case 4:
+								tile.ClearTile();
+								break;
+							case 5: 
+								tile.ClearTile();
+								break;
+							case 6:
+								break;
+						}
+					}
+				}
+			}
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+			 	{
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.PlaceTile(k, l, 2);
+								break;
+							case 2:
+								WorldGen.PlaceObject(k, l, 215, true, 0);
+								break;	
+							case 3:
+								WorldGen.PlaceTile(k, l, mod.TileType("TentOpposite"));
+								break;
+							case 4:
+								WorldGen.PlaceObject(k, l, 187, true, 26, 1, -1, -1);
+								break;
+							case 5:
+								WorldGen.PlaceTile(k, l, 28);  // Pot
+								tile.active(true);
+								break;
+						}
+					}
+				}
+			}
+		}
+		public void GenerateCampsite()
+		{
+			
+			int[,] CampShape1 = new int[,]
+			{
+				{6,6,6,0,0,0,0,0,0,0,6,6,6,6},
+				{6,6,0,0,0,0,0,0,0,0,0,6,6,6},
+				{6,0,0,0,0,0,0,0,0,0,0,0,6,6},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,3,0,0,0,0,2,0,0,0,4,0,5,0},
+				{1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+			};
+			bool placed = false;
+			while (!placed)
+			{
+				// Select a place in the first 6th of the world
+				int towerX = WorldGen.genRand.Next(300, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
+				// 50% of choosing the last 6th of the world
+				if (WorldGen.genRand.NextBool())
+				{
+					towerX = Main.maxTilesX - towerX;
+				}
+				int towerY = 0;
+				// We go down until we hit a solid tile or go under the world's surface
+				while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface)
+				{
+					towerY++;
+				}
+				// If we went under the world's surface, try again
+				if (towerY > Main.worldSurface)
+				{
+					continue;
+				}
+				Tile tile = Main.tile[towerX, towerY];
+				// If the type of the tile we are placing the tower on doesn't match what we want, try again
+				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone)
+				{
+					continue;
+				}
+				// place the tower
+				PlaceCampsite(towerX, towerY, CampShape1);
 				placed = true;
 			}
 		}
@@ -2767,6 +2892,15 @@ namespace Microstructures
 				{
 					GenerateGemStash();
 				}
+				if (WorldGen.genRand.Next(2) == 0)
+				{
+					GenerateCampsite();				
+				}
+				if (WorldGen.genRand.Next(3) == 0)
+				{
+					GenerateCampsite();
+				}
+				
 			}));			
 		}
 		public override void PostWorldGen()
@@ -2781,7 +2915,7 @@ namespace Microstructures
 			int[] other1 = new int[] {3093, 168};
 			int[] other2 = new int[] {31, 8};
 			int[] exoticItems = new int[] { 2266, 2267, 2268};
-			int[] exoticMain = new int[] { 2260, 2277, 2288}; 	
+			int[] exoticMain = new int[] { 2278, 2277, 2275}; 	
 			int[] crimsonMain = new int[] { mod.ItemType("Spineshot"), mod.ItemType("FleshStick")};	
 			int[] corruptMain = new int[] {mod.ItemType("CorruptSpearVariant"), mod.ItemType("Ebonwand")};	
 			for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
@@ -2867,6 +3001,7 @@ namespace Microstructures
 					chest.item[7].SetDefaults(72, false);
 					chest.item[7].stack = WorldGen.genRand.Next(10, 29);				
 					chest.item[0].SetDefaults(exoticMain[Main.rand.Next(3)], false);
+					chest.item[0].stack = 1;
 					chest.item[8].SetDefaults(2260, false);
 					chest.item[8].stack = WorldGen.genRand.Next(50, 100);				
 				}
